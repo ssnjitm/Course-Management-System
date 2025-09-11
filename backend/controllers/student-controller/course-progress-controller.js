@@ -1,6 +1,6 @@
-const CourseProgress = require("../../models/CourseProgress");
-const Course = require("../../models/Course");
-const StudentCourses = require("../../models/StudentCourses");
+import CourseProgress from "../../models/CourseProgress.js";
+import Course from "../../models/Course.js";
+import StudentCourses from "../../models/StudentCourses.js";
 
 //mark current lecture as viewed
 const markCurrentLectureAsViewed = async (req, res) => {
@@ -180,7 +180,7 @@ const resetCurrentCourseProgress = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   markCurrentLectureAsViewed,
   getCurrentCourseProgress,
   resetCurrentCourseProgress,

@@ -1,4 +1,4 @@
-const StudentCourses = require("../../models/StudentCourses");
+import StudentCourses from "../../models/StudentCourses.js";
 
 const getCoursesByStudentId = async (req, res) => {
   try {
@@ -20,4 +20,4 @@ const getCoursesByStudentId = async (req, res) => {
   }
 };
 
-module.exports = { getCoursesByStudentId };
+export { getCoursesByStudentId };

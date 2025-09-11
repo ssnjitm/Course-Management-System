@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
 const LectureSchema = new mongoose.Schema({
   title: String,
@@ -33,4 +33,4 @@ const CourseSchema = new mongoose.Schema({
   isPublised: Boolean,
 });
 
-module.exports = mongoose.model("Course", CourseSchema);
+export default mongoose.model('Course', CourseSchema);

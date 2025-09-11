@@ -1,7 +1,7 @@
-const paypal = require("../../helpers/paypal");
-const Order = require("../../models/Order");
-const Course = require("../../models/Course");
-const StudentCourses = require("../../models/StudentCourses");
+import paypal from "../../helpers/paypal.js";
+import Order from "../../models/Order.js";
+import Course from "../../models/Course.js";
+import StudentCourses from "../../models/StudentCourses.js";
 
 const createOrder = async (req, res) => {
   try {
@@ -184,4 +184,4 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, capturePaymentAndFinalizeOrder };
+export { createOrder, capturePaymentAndFinalizeOrder };

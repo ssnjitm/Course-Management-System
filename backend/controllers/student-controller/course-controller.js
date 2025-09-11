@@ -1,5 +1,5 @@
-const Course = require("../../models/Course");
-const StudentCourses = require("../../models/StudentCourses");
+import Course from "../../models/Course.js";
+import StudentCourses from "../../models/StudentCourses.js";
 
 const getAllStudentViewCourses = async (req, res) => {
   try {
@@ -27,21 +27,16 @@ const getAllStudentViewCourses = async (req, res) => {
     switch (sortBy) {
       case "price-lowtohigh":
         sortParam.pricing = 1;
-
         break;
       case "price-hightolow":
         sortParam.pricing = -1;
-
         break;
       case "title-atoz":
         sortParam.title = 1;
-
         break;
       case "title-ztoa":
         sortParam.title = -1;
-
         break;
-
       default:
         sortParam.pricing = 1;
         break;
@@ -110,7 +105,7 @@ const checkCoursePurchaseInfo = async (req, res) => {
   }
 };
 
-module.exports = {
+export {
   getAllStudentViewCourses,
   getStudentViewCourseDetails,
   checkCoursePurchaseInfo,
