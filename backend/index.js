@@ -27,9 +27,16 @@ app.use(express.json());
 
 // Database connection
 mongoose
-    .connect(MONGO_URI)
-    .then(() => console.log('mongodb is connected'))
-    .catch((e) => console.log(e));
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+        console.log(`Connected to Db: ${MONGO_URI}`);
+    })
+   .catch((err) => {
+        console.log("Mongodb connection failed !!!", err);
+    });
 
 // Routes configuration
 app.use('/auth', authRoutes);
@@ -48,6 +55,3 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is now running on port ${PORT}`);
-});
