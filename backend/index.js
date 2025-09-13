@@ -10,6 +10,8 @@ import studentViewCourseRoutes from './routes/student-routes/course-routes.js';
 import studentViewOrderRoutes from './routes/student-routes/order-routes.js';
 import studentCoursesRoutes from './routes/student-routes/student-courses-routes.js';
 import studentCourseProgressRoutes from './routes/student-routes/course-progress-routes.js';
+import studentRoutes from './routes/student-routes/index.js';
+import teacherRoutes from './routes/teacher-routes/index.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,9 +19,10 @@ const MONGO_URI = process.env.MONGO_URI;
 
 app.use(
     cors({
-        origin: process.env.CLIENT_URL,
+        origin: process.env.CLIENT_URL || 'http://localhost:5173',
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
     })
 );
 
@@ -46,6 +49,8 @@ app.use('/student/course', studentViewCourseRoutes);
 app.use('/student/order', studentViewOrderRoutes);
 app.use('/student/courses-bought', studentCoursesRoutes);
 app.use('/student/course-progress', studentCourseProgressRoutes);
+app.use('/students', studentRoutes);
+app.use('/teachers', teacherRoutes);
 
 app.use((err, req, res, next) => {
     console.log(err.stack);

@@ -1,4 +1,4 @@
-import { useAuth } from '../../hooks/useAuth.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 import Button from '../ui/Button.jsx';
 
 const Header = () => {

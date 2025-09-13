@@ -1,10 +1,15 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from './context/AuthContext.jsx';
+import { AuthProvider, useAuth } from './context/AuthContext.jsx';
 import Layout from './components/layout/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Courses from './pages/Courses.jsx';
 import Students from './pages/Students.jsx';
 import Teachers from './pages/Teachers.jsx';
+import Assignments from './pages/Assignments.jsx';
+import Grades from './pages/Grades.jsx';
+import Attendance from './pages/Attendance.jsx';
+import Reports from './pages/Reports.jsx';
+import Settings from './pages/Settings.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 
@@ -24,38 +29,59 @@ function ProtectedRoute({ children, requiredRole }) {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={
-          <ProtectedRoute>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/courses" element={<Courses />} />
-                <Route 
-                  path="/students" 
-                  element={
-                    <ProtectedRoute requiredRole="admin">
-                      <Students />
-                    </ProtectedRoute>
-                  } 
-                />
-                <Route 
-                  path="/teachers" 
-                  element={
-                    <ProtectedRoute requiredRole="admin">
-                      <Teachers />
-                    </ProtectedRoute>
-                  } 
-                />
-              </Routes>
-            </Layout>
-          </ProtectedRoute>
-        } />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={
+            <ProtectedRoute>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/courses" element={<Courses />} />
+                  <Route 
+                    path="/students" 
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Students />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/teachers" 
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Teachers />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/assignments" element={<Assignments />} />
+                  <Route path="/grades" element={<Grades />} />
+                  <Route 
+                    path="/attendance" 
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Attendance />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route 
+                    path="/reports" 
+                    element={
+                      <ProtectedRoute requiredRole="admin">
+                        <Reports />
+                      </ProtectedRoute>
+                    } 
+                  />
+                  <Route path="/settings" element={<Settings />} />
+                </Routes>
+              </Layout>
+            </ProtectedRoute>
+          } />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

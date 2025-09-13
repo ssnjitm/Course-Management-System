@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '../utils/api.js';
 
 const AuthContext = createContext();
 
@@ -33,6 +34,10 @@ export const AuthProvider = ({ children }) => {
     setUser(userWithRole);
   };
 
+  const register = async (form) => {
+    return api.register(form);
+  };
+
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -42,6 +47,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     login,
+    register,
     logout,
     loading
   };

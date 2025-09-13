@@ -27,8 +27,8 @@ const Login = () => {
     setError('');
     
     try {
-      const response = await api.login(credentials);
-      login(response.user, response.token);
+      const { user, token } = await api.login(credentials);
+      login(user, token);
       window.location.href = '/';
     } catch (error) {
       setError('Invalid email or password');

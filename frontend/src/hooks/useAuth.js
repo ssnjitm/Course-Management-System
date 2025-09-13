@@ -1,9 +1,5 @@
-import { useState, useEffect, useContext } from 'react';
-import { AuthProvider } from '../context/AuthContext.jsx';
-
-export const useAuth = () => {
-  return useContext(AuthProvider);
-};
+import { useState, useEffect } from 'react';
+import { useAuth as useAuthContext } from '../context/AuthContext.jsx';
 
 // Additional auth-related utilities
 export const useAuthState = () => {
@@ -190,7 +186,7 @@ export const useAuthState = () => {
 
 // Hook for protecting routes based on authentication
 export const useRequireAuth = (redirectUrl = '/login') => {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuthContext();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
@@ -210,7 +206,7 @@ export const useRequireAuth = (redirectUrl = '/login') => {
 
 // Hook for protecting routes based on roles
 export const useRequireRole = (requiredRole, redirectUrl = '/') => {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuthContext();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {
@@ -230,7 +226,7 @@ export const useRequireRole = (requiredRole, redirectUrl = '/') => {
 
 // Hook for protecting routes based on multiple roles
 export const useRequireAnyRole = (requiredRoles, redirectUrl = '/') => {
-  const { user, loading } = useAuth();
+  const { user, loading } = useAuthContext();
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   useEffect(() => {

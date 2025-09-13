@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5000';
 
 export const api = {
   async request(endpoint, options = {}) {
@@ -41,17 +41,39 @@ export const api = {
   },
 
   // Auth endpoints
-  login(credentials) {
-    return this.request('/auth/login', {
+  async login(credentials) {
+    const payload = {
+      userEmail: credentials.email,
+      password: credentials.password,
+    };
+    const raw = await this.request('/auth/login', {
       method: 'POST',
-      body: JSON.stringify(credentials),
+      body: JSON.stringify(payload),
     });
+    // Normalize backend response to { user, token }
+    const data = raw.data || raw;
+    const user = data.user || {};
+    return {
+      user: {
+        id: user._id,
+        name: user.userName || user.name,
+        email: user.userEmail || user.email,
+        role: user.role,
+      },
+      token: data.accessToken || data.token,
+    };
   },
   
-  register(userData) {
+  async register(userData) {
+    const payload = {
+      userName: userData.name,
+      userEmail: userData.email,
+      password: userData.password,
+      role: userData.role || 'student',
+    };
     return this.request('/auth/register', {
       method: 'POST',
-      body: JSON.stringify(userData),
+      body: JSON.stringify(payload),
     });
   },
   
@@ -73,31 +95,31 @@ export const api = {
     });
   },
   
-  // Course endpoints
-  getCourses(page = 1, limit = 10) {
-    return this.request(`/courses?page=${page}&limit=${limit}`);
+  // Course endpoints (match backend routes)
+  getCourses() {
+    return this.request(`/student/course/get`);
   },
   
   getCourse(id) {
-    return this.request(`/courses/${id}`);
+    return this.request(`/student/course/get/details/${id}`);
   },
-  
+
   createCourse(data) {
-    return this.request('/courses', {
+    return this.request('/instructor/course/add', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   },
-  
+
   updateCourse(id, data) {
-    return this.request(`/courses/${id}`, {
+    return this.request(`/instructor/course/update/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });
   },
-  
+
   deleteCourse(id) {
-    return this.request(`/courses/${id}`, {
+    return this.request(`/instructor/course/delete/${id}`, {
       method: 'DELETE',
     });
   },
@@ -182,6 +204,100 @@ export const api = {
   
   deleteEnrollment(id) {
     return this.request(`/enrollments/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  // Assignment endpoints (placeholder - will need backend implementation)
+  getAssignments() {
+    return Promise.resolve({ data: [] });
+  },
+
+  getAssignment(id) {
+    return this.request(`/assignments/${id}`);
+  },
+
+  createAssignment(data) {
+    return this.request('/assignments', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  updateAssignment(id, data) {
+    return this.request(`/assignments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  deleteAssignment(id) {
+    return this.request(`/assignments/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  submitAssignment(id, data) {
+    return this.request(`/assignments/${id}/submit`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  // Grade endpoints (placeholder - will need backend implementation)
+  getGrades() {
+    return Promise.resolve({ data: [] });
+  },
+
+  getGrade(id) {
+    return this.request(`/grades/${id}`);
+  },
+
+  createGrade(data) {
+    return this.request('/grades', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  updateGrade(id, data) {
+    return this.request(`/grades/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  deleteGrade(id) {
+    return this.request(`/grades/${id}`, {
+      method: 'DELETE',
+    });
+  },
+
+  // Attendance endpoints (placeholder - will need backend implementation)
+  getAttendance() {
+    return Promise.resolve({ data: [] });
+  },
+
+  getAttendanceRecord(id) {
+    return this.request(`/attendance/${id}`);
+  },
+
+  markAttendance(data) {
+    return this.request('/attendance', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  updateAttendance(id, data) {
+    return this.request(`/attendance/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  },
+
+  deleteAttendance(id) {
+    return this.request(`/attendance/${id}`, {
       method: 'DELETE',
     });
   },

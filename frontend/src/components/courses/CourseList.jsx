@@ -18,12 +18,10 @@ const CourseList = () => {
 
   const loadData = async () => {
     try {
-      const [coursesData, teachersData] = await Promise.all([
-        api.getCourses(),
-        api.getTeachers()
-      ]);
-      setCourses(coursesData);
-      setTeachers(teachersData);
+      const coursesRes = await api.getCourses();
+      const list = coursesRes.data || coursesRes; // backend returns { success, data }
+      setCourses(list);
+      setTeachers([]);
     } catch (error) {
       console.error('Error loading data:', error);
     } finally {
@@ -56,13 +54,13 @@ const CourseList = () => {
   const handleFormSubmit = async (courseData) => {
     try {
       if (editingCourse) {
-        const updatedCourse = await api.updateCourse(editingCourse._id, courseData);
-        setCourses(courses.map(course => 
-          course._id === editingCourse._id ? updatedCourse : course
+        await api.updateCourse(editingCourse._id, courseData);
+        setCourses(courses.map(c => 
+          c._id === editingCourse._id ? { ...c, ...courseData } : c
         ));
       } else {
         const newCourse = await api.createCourse(courseData);
-        setCourses([...courses, newCourse]);
+        setCourses([...courses, newCourse.data || newCourse]);
       }
       setShowForm(false);
     } catch (error) {

@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+/* Tailwind v4 theme tokens */
+@theme {
+  --color-primary: #2563eb; /* blue-600 */
+  --color-secondary: #7c3aed; /* violet-600 */
+  --color-danger: #dc2626; /* red-600 */
+  --color-dark: #111827; /* gray-900 */
+  --color-muted: #6b7280; /* gray-500 */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans;
+  }
+}
+
+/* Utilities for legacy class names used across components */
+@layer utilities {
+  .bg-primary { @apply bg-[--color-primary]; }
+  .text-primary { @apply text-[--color-primary]; }
+  .border-primary { @apply border-[--color-primary]; }
+  .focus\:ring-primary:focus { @apply ring-[--color-primary]; }
+  .hover\:bg-primary:hover { @apply bg-[--color-primary]; }
+
+  .bg-secondary { @apply bg-[--color-secondary]; }
+  .text-secondary { @apply text-[--color-secondary]; }
+  .hover\:text-secondary:hover { @apply text-[--color-secondary]; }
+  .hover\:bg-secondary:hover { @apply bg-[--color-secondary]; }
+
+  .bg-danger { @apply bg-[--color-danger]; }
+  .text-danger { @apply text-[--color-danger]; }
+  .focus\:ring-danger:focus { @apply ring-[--color-danger]; }
+
+  .bg-dark { @apply bg-[--color-dark]; }
+  .text-muted { @apply text-[--color-muted]; }
+
+  .transition-width { transition-property: width; }
+}
+
+/* Global component polish */
+@layer components {
+  .container-padded { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+}
